@@ -169,3 +169,48 @@ export async function finishPasskeyLogin(login: AuthenticationResponseJSON) {
 
   return true;
 }
+
+export async function updateUsername(newUsername: string) {
+  const { request, headers } = requestInfo;
+  
+  const session = await sessions.load(request);
+  const userId = session?.userId;
+
+  if (!userId) {
+    return { success: false, error: "Not authenticated" };
+  }
+
+  try {
+    const existingUser = await db.user.findUnique({
+      where: { username: newUsername }
+    });
+
+    if (existingUser && existingUser.id !== userId) {
+      return { success: false, error: "Username already taken" };
+    }
+
+    await db.user.update({
+      where: { id: userId },
+      data: { username: newUsername }
+    });
+
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Failed to update username" };
+  }
+}
+
+export async function getCurrentUser() {
+  const { request } = requestInfo;
+  
+  const session = await sessions.load(request);
+  const userId = session?.userId;
+
+  if (!userId) {
+    return null;
+  }
+
+  return await db.user.findUnique({
+    where: { id: userId }
+  });
+}

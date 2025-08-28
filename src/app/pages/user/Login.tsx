@@ -13,8 +13,15 @@ import {
 } from "./functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { KeyRound, Music, Sparkles } from "lucide-react";
+import { link } from "@/app/shared/links";
 
 export function Login() {
   const [username, setUsername] = useState("");
@@ -35,6 +42,8 @@ export function Login() {
       setResult("Login failed");
     } else {
       setResult("Login successful!");
+      // Redirect to profile page after successful login
+      window.location.href = link("/user/profile");
     }
   };
 
@@ -64,7 +73,7 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="container mx-auto px-4 py-12 flex items-center justify-center min-h-[80vh]">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -73,29 +82,35 @@ export function Login() {
               <Music className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Theode</h1>
-          <p className="text-gray-600">Discover and organize songs by their meaning</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Welcome to Theode
+          </h1>
+          <p className="text-gray-600">
+            Discover and organize songs by their meaning
+          </p>
         </div>
 
         {/* Login Card */}
         <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-xl text-center">Sign in to your account</CardTitle>
+            <CardTitle className="text-xl text-center">
+              Sign in to your account
+            </CardTitle>
             <CardDescription className="text-center">
               Use your passkey for secure, passwordless authentication
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-3">
-              <Button 
-                onClick={handlePerformPasskeyLogin} 
+              <Button
+                onClick={handlePerformPasskeyLogin}
                 disabled={isPending}
                 className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md"
               >
                 <KeyRound className="mr-2 h-4 w-4" />
                 {isPending ? "Authenticating..." : "Sign in with Passkey"}
               </Button>
-              
+
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-gray-200" />
@@ -104,9 +119,12 @@ export function Login() {
                   <span className="bg-white px-2 text-gray-500">or</span>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
-                <label htmlFor="username" className="text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="username"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Username (for new account)
                 </label>
                 <Input
@@ -118,9 +136,9 @@ export function Login() {
                   className="bg-white/50"
                 />
               </div>
-              
-              <Button 
-                onClick={handlePerformPasskeyRegister} 
+
+              <Button
+                onClick={handlePerformPasskeyRegister}
                 disabled={isPending || !username.trim()}
                 className="w-full h-11 border border-gray-300 bg-white hover:bg-gray-50 text-gray-900 font-medium rounded-md"
               >
@@ -128,19 +146,21 @@ export function Login() {
                 {isPending ? "Creating account..." : "Create new account"}
               </Button>
             </div>
-            
+
             {result && (
-              <div className={`p-3 rounded-md text-sm text-center ${
-                result.includes('successful') 
-                  ? 'bg-green-50 text-green-700 border border-green-200' 
-                  : 'bg-red-50 text-red-700 border border-red-200'
-              }`}>
+              <div
+                className={`p-3 rounded-md text-sm text-center ${
+                  result.includes("successful")
+                    ? "bg-green-50 text-green-700 border border-green-200"
+                    : "bg-red-50 text-red-700 border border-red-200"
+                }`}
+              >
                 {result}
               </div>
             )}
           </CardContent>
         </Card>
-        
+
         {/* Footer */}
         <div className="text-center mt-6 text-sm text-gray-500">
           <p>Secure authentication powered by WebAuthn</p>
