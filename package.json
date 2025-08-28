@@ -29,11 +29,17 @@
   "dependencies": {
     "@prisma/adapter-d1": "~6.8.2",
     "@prisma/client": "~6.8.2",
+    "@radix-ui/react-slot": "^1.2.3",
     "@simplewebauthn/browser": "^13.1.0",
     "@simplewebauthn/server": "^13.1.1",
     "@tailwindcss/vite": "^4.1.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.542.0",
     "rwsdk": "0.1.39",
-    "tailwindcss": "^4.1.12"
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.12",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.7.4",
