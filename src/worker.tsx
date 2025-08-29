@@ -1,14 +1,13 @@
 import { defineApp, ErrorResponse } from "rwsdk/worker";
-import { route, render, prefix, layout } from "rwsdk/router";
+import { render, layout } from "rwsdk/router";
 import { Document } from "@/app/Document";
-import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
-import { userRoutes } from "@/app/pages/user/routes";
 import { sessions, setupSessionStore } from "./session/store";
 import { Session } from "./session/durableObject";
 import { type User, db, setupDb } from "@/db";
 import { env } from "cloudflare:workers";
 import { AppLayout } from "@/app/layouts/AppLayout";
+import { routes } from "./routes";
 export { SessionDurableObject } from "./session/durableObject";
 
 export type AppContext = {
@@ -46,21 +45,5 @@ export default defineApp([
       });
     }
   },
-  render(Document, [
-    layout(AppLayout, [
-      route("/", Home),
-      route("/protected", [
-        ({ ctx }) => {
-          if (!ctx.user) {
-            return new Response(null, {
-              status: 302,
-              headers: { Location: "/user/login" },
-            });
-          }
-        },
-        Home,
-      ]),
-      prefix("/user", userRoutes),
-    ]),
-  ]),
+  render(Document, [layout(AppLayout, routes)]),
 ]);

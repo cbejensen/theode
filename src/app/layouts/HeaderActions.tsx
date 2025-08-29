@@ -1,26 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { User, LogOut } from "lucide-react";
+import { User as UserIcon, LogOut } from "lucide-react";
 import { link } from "@/app/shared/links";
+import { User } from "@/db";
 
-interface HeaderActionsProps {
-  user?: {
-    username: string;
-  } | null;
-}
-
-export function HeaderActions({ user }: HeaderActionsProps) {
+export function HeaderActions({ user }: { user?: User }) {
   const handleLogout = () => {
-    window.location.href = link("/user/logout");
+    window.location.href = link("/logout");
   };
 
   const handleLogin = () => {
-    window.location.href = link("/user/login");
-  };
-
-  const handleProfile = () => {
-    window.location.href = link("/user/profile");
+    window.location.href = link("/login");
   };
 
   return (
@@ -30,10 +21,10 @@ export function HeaderActions({ user }: HeaderActionsProps) {
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleProfile}
+            onClick={() => (window.location.href = `/users/${user.id}`)}
             className="text-gray-600 hover:text-gray-900"
           >
-            <User className="h-4 w-4 mr-2" />
+            <UserIcon className="h-4 w-4 mr-2" />
             {user.username || "Profile"}
           </Button>
           <Button

@@ -11,9 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { User, Save, ArrowLeft } from "lucide-react";
-import { updateUsername, getCurrentUser } from "./functions";
+import { updateUsername, getCurrentUser } from "../../lib/user";
 
-export function Profile() {
+export function Settings() {
   const [username, setUsername] = useState("");
   const [currentUsername, setCurrentUsername] = useState("");
   const [result, setResult] = useState("");

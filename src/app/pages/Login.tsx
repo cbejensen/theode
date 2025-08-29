@@ -10,7 +10,7 @@ import {
   finishPasskeyRegistration,
   startPasskeyLogin,
   startPasskeyRegistration,
-} from "./functions";
+} from "../../lib/user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -43,7 +43,7 @@ export function Login() {
     } else {
       setResult("Login successful!");
       // Redirect to profile page after successful login
-      window.location.href = link("/user/profile");
+      window.location.href = link("/settings");
     }
   };
 
