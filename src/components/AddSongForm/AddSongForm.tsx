@@ -9,7 +9,7 @@ export function AddSongForm({
 }: {
   cancelButton?: React.ReactNode;
 }) {
-  const [formState, formAction] = useActionState(addSong, undefined);
+  const [formState, formAction, isPending] = useActionState(addSong, undefined);
 
   // Helper function to get field error
   const getFieldError = (fieldName: string) => {
@@ -71,7 +71,7 @@ export function AddSongForm({
         </div>
 
         <div className="flex gap-2 pt-4">
-          <Button type="submit" className="flex-1">
+          <Button type="submit" className="flex-1" disabled={isPending}>
             Add Song
           </Button>
           {cancelButton}
