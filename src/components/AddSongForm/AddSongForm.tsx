@@ -1,24 +1,51 @@
 "use client";
-import { useActionState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { Button } from "../ui/Button";
 import { FormField } from "../ui/FormField";
-import { addSong } from "./addSong";
+import {
+  addSong,
+  AddSongResult,
+  ErrorMessage,
+  FieldError,
+  validate,
+} from "./addSong";
 
 export function AddSongForm({
   cancelButton,
 }: {
   cancelButton?: React.ReactNode;
 }) {
-  const [formState, formAction] = useActionState(addSong, undefined);
+  const [serverState, action] = useActionState(addSong, undefined);
+
+  const [clientErrors, setClientErrors] = useState<FieldError<ErrorMessage>[]>(
+    []
+  );
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const errors = validate(formData);
+    if (errors.length > 0) {
+      setClientErrors(errors);
+      return;
+    } else {
+      setClientErrors([]);
+      startTransition(() => {
+        action(formData);
+      });
+    }
+  };
 
   // Helper function to get field error
   const getFieldError = (fieldName: string) => {
-    return formState?.errors?.find((error) => error.field === fieldName)
-      ?.message;
+    return (
+      serverState?.errors?.find((error) => error.field === fieldName)
+        ?.message ??
+      clientErrors?.find((error) => error.field === fieldName)?.message
+    );
   };
 
   return (
-    <form noValidate action={formAction}>
+    <form noValidate action={action} onSubmit={handleSubmit}>
       <div className="space-y-4">
         <FormField
           id="title"
@@ -29,7 +56,7 @@ export function AddSongForm({
           className="w-full"
           required
           error={getFieldError("title")}
-          defaultValue={formState?.formValue?.title}
+          defaultValue={serverState?.formValue?.title}
         />
 
         <FormField
@@ -40,7 +67,7 @@ export function AddSongForm({
           placeholder="Enter artist name (optional)"
           className="w-full"
           error={getFieldError("artist")}
-          defaultValue={formState?.formValue?.artist}
+          defaultValue={serverState?.formValue?.artist}
         />
 
         <div>
@@ -61,7 +88,7 @@ export function AddSongForm({
             rows={6}
             name="lyrics"
             required
-            defaultValue={formState?.formValue?.lyrics}
+            defaultValue={serverState?.formValue?.lyrics}
           />
           {getFieldError("lyrics") && (
             <p className="text-sm text-red-500 mt-2">

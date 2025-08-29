@@ -27,31 +27,33 @@ export interface FieldError<Message extends string> {
   message: Message;
 }
 
+export function validate(formData: FormData): FieldError<ErrorMessage>[] {
+  const errors: FieldError<ErrorMessage>[] = [];
+
+  // Validate required fields
+  if (!formData.get("title")) {
+    errors.push({ field: "title", message: ErrorMessage.TitleRequired });
+  }
+
+  if (!formData.get("lyrics")) {
+    errors.push({ field: "lyrics", message: ErrorMessage.LyricsRequired });
+  }
+
+  return errors;
+}
+
 export async function addSong(
   prevState: unknown,
   formData: FormData
 ): Promise<AddSongResult> {
-  console.log("wowza");
-  const title = formData.get("title");
-  const artist = formData.get("artist");
-  const lyrics = formData.get("lyrics");
-  const errors: FieldError<ErrorMessage>[] = [];
-
   // Extract form values to preserve on error
   const formValue: AddSongFormValue = {
-    title: (title as string) || "",
-    artist: (artist as string) || "",
-    lyrics: (lyrics as string) || "",
+    title: formData.get("title") as string,
+    artist: formData.get("artist") as string,
+    lyrics: formData.get("lyrics") as string,
   };
-
-  // Validate required fields
-  if (!title) {
-    errors.push({ field: "title", message: ErrorMessage.TitleRequired });
-    return { success: false, errors, formValue };
-  }
-
-  if (!lyrics) {
-    errors.push({ field: "lyrics", message: ErrorMessage.LyricsRequired });
+  const errors = validate(formData);
+  if (errors.length > 0) {
     return { success: false, errors, formValue };
   }
 
@@ -66,14 +68,12 @@ export async function addSong(
     // Create the song directly associated with the user
     await db.song.create({
       data: {
-        title: title as string,
-        artist: artist as string,
-        lyrics: lyrics as string,
+        ...formValue,
         userId: user.id,
       },
     });
 
-    console.log("Song saved successfully:", { title, artist, lyrics });
+    console.log("Song saved successfully:", formValue);
     return { success: true, formValue };
   } catch (error) {
     console.error("Failed to save song:", error);
