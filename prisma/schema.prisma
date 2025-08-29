@@ -22,23 +22,23 @@ datasource db {
 }
 
 model User {
-  id          String      @id @default(uuid()) // User ID (UUID-based)
-  username    String      @unique
-  createdAt   DateTime    @default(now())
+  id        String   @id @default(uuid()) // User ID (UUID-based)
+  username  String   @unique
+  createdAt DateTime @default(now())
 
   credentials Credential[] // Relationship: One user can have many credentials
-  songs       Song[]       // Relationship: One user can have many songs
+  songs       Song[] // Relationship: One user can have many songs
 }
 
 model Credential {
-  id            String   @id @default(uuid()) // Internal DB ID
-  userId        String   @unique // Every credential is linked to a specific user
-  user          User     @relation(fields: [userId], references: [id])
-  createdAt     DateTime @default(now())
-  credentialId  String   @unique // WebAuthn credential identifier
-  publicKey     Bytes
-  counter       Int      @default(0)
-  
+  id           String   @id @default(uuid()) // Internal DB ID
+  userId       String   @unique // Every credential is linked to a specific user
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  credentialId String   @unique // WebAuthn credential identifier
+  publicKey    Bytes
+  counter      Int      @default(0)
+
   @@index([credentialId])
   @@index([userId])
 }
@@ -46,14 +46,14 @@ model Credential {
 model Song {
   id        String   @id @default(uuid())
   title     String
-  artist    String?  // Optional artist field
+  artist    String? // Optional artist field
   lyrics    String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tags      SongTag[] // Many-to-many relationship with tags
+  tags SongTag[] // Many-to-many relationship with tags
 
   @@index([userId])
 }
@@ -63,7 +63,7 @@ model Tag {
   name      String   @unique
   createdAt DateTime @default(now())
 
-  songs     SongTag[] // Many-to-many relationship with songs
+  songs SongTag[] // Many-to-many relationship with songs
 }
 
 model SongTag {

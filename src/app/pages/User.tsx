@@ -1,5 +1,6 @@
 import { User as UserIcon } from "lucide-react";
 import { AddSongFormCard } from "@/components/AddSongFormCard";
+import { UserSongsList } from "@/components/UserSongsList";
 import type { User } from "@/db";
 
 export function User({ user }: { user: User }) {
@@ -16,7 +17,6 @@ export function User({ user }: { user: User }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
@@ -31,16 +31,8 @@ export function User({ user }: { user: User }) {
             </div>
           </div>
         </div>
+        <UserSongsList userId={user.id} />
         <AddSongFormCard />
-        {/* <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-          <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-xl flex items-center">
-              <Music className="h-5 w-5 mr-2 text-primary" />
-              {user.username}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">Cool info here</CardContent>
-        </Card> */}
       </div>
     </div>
   );
