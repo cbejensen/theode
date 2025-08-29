@@ -6,5 +6,5 @@ export const link = defineLinks([
   "/login",
   "/logout",
   "/settings",
-  "/users/",
+  "/users/:id",
 ]);

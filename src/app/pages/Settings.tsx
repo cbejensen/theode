@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 import { User, Save, ArrowLeft } from "lucide-react";
 import { updateUsername, getCurrentUser } from "../../lib/user";
 
@@ -129,33 +129,6 @@ export function Settings() {
                 {result}
               </div>
             )}
-          </CardContent>
-        </Card>
-
-        {/* Additional Settings */}
-        <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm mt-6">
-          <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-xl">Security</CardTitle>
-            <CardDescription>
-              Manage your authentication settings
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium text-blue-900">
-                    Passkey Authentication
-                  </div>
-                  <div className="text-sm text-blue-700">
-                    Secure, passwordless login enabled
-                  </div>
-                </div>
-                <div className="text-green-600 font-semibold text-sm">
-                  Active
-                </div>
-              </div>
-            </div>
           </CardContent>
         </Card>
       </div>

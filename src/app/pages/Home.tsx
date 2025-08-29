@@ -1,12 +1,6 @@
 import { RequestInfo } from "rwsdk/worker";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Music, Search, Heart, Users } from "lucide-react";
-import { HomeActions } from "./HomeActions";
+import { Music } from "lucide-react";
+import { link } from "@/app/shared/links";
 
 export function Home({ ctx }: RequestInfo) {
   return (
@@ -32,7 +26,14 @@ export function Home({ ctx }: RequestInfo) {
             </p>
           </div>
         )}
-        <HomeActions user={ctx.user} />
+        <a
+          href={
+            ctx.user ? link("/users/:id", { id: ctx.user.id }) : link("/login")
+          }
+          className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white text-lg"
+        >
+          Get Started
+        </a>
       </div>
     </div>
   );

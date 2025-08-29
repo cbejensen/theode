@@ -1,49 +1,36 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { User as UserIcon, LogOut } from "lucide-react";
 import { link } from "@/app/shared/links";
 import { User } from "@/db";
 
-export function HeaderActions({ user }: { user?: User }) {
-  const handleLogout = () => {
-    window.location.href = link("/logout");
-  };
-
-  const handleLogin = () => {
-    window.location.href = link("/login");
-  };
-
+export function HeaderActions({ user }: { user?: User | null }) {
   return (
     <div className="flex items-center space-x-3">
       {user ? (
         <div className="flex items-center space-x-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => (window.location.href = `/users/${user.id}`)}
-            className="text-gray-600 hover:text-gray-900"
+          <a
+            href={link("/users/:id", { id: user.id })}
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-3 text-gray-600 hover:text-gray-900 hover:bg-accent hover:text-accent-foreground"
           >
             <UserIcon className="h-4 w-4 mr-2" />
             {user.username || "Profile"}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleLogout}
-            className="text-gray-600 hover:text-gray-900 border-gray-300"
+          </a>
+          <a
+            href={link("/logout")}
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-3 border border-input bg-background hover:bg-accent hover:text-accent-foreground text-gray-600 hover:text-gray-900 border-gray-300"
           >
             <LogOut className="h-4 w-4 mr-2" />
             Logout
-          </Button>
+          </a>
         </div>
       ) : (
-        <Button
-          onClick={handleLogin}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+        <a
+          href={link("/login")}
+          className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white"
         >
           Sign In
-        </Button>
+        </a>
       )}
     </div>
   );

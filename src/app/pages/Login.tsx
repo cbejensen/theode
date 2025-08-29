@@ -11,15 +11,15 @@ import {
   startPasskeyLogin,
   startPasskeyRegistration,
 } from "../../lib/user";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 import { KeyRound, Music, Sparkles } from "lucide-react";
 import { link } from "@/app/shared/links";
 
