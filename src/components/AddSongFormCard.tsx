@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Plus } from "lucide-react";
-import { AddSongForm } from "./AddSongForm";
+import { AddSongForm } from "./AddSongForm/AddSongForm";
 import type { ComponentProps } from "react";
 
 export function AddSongFormCard({

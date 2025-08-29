@@ -27,7 +27,7 @@ model User {
   createdAt   DateTime    @default(now())
 
   credentials Credential[] // Relationship: One user can have many credentials
-  songLists   SongList[]   // Relationship: One user can have many song lists
+  songs       Song[]       // Relationship: One user can have many songs
 }
 
 model Credential {
@@ -43,28 +43,37 @@ model Credential {
   @@index([userId])
 }
 
-model SongList {
+model Song {
   id        String   @id @default(uuid())
-  name      String
+  title     String
+  artist    String?  // Optional artist field
+  lyrics    String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  songs     Song[]   // Relationship: One song list can have many songs
+  tags      SongTag[] // Many-to-many relationship with tags
 
   @@index([userId])
 }
 
-model Song {
-  id         String   @id @default(uuid())
-  title      String
-  artist     String?  // Optional artist field
-  lyrics     String
-  songListId String
-  songList   SongList @relation(fields: [songListId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
 
-  @@index([songListId])
+  songs     SongTag[] // Many-to-many relationship with songs
+}
+
+model SongTag {
+  id     String @id @default(uuid())
+  songId String
+  tagId  String
+  song   Song   @relation(fields: [songId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([songId, tagId])
+  @@index([songId])
+  @@index([tagId])
 }

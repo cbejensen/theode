@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { User as UserIcon, Music } from "lucide-react";
+import { User as UserIcon } from "lucide-react";
 import { AddSongFormCard } from "@/components/AddSongFormCard";
 import type { User } from "@/db";
 
